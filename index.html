@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brainrot Trade Calc 2026</title>
+    <style>
+        body { font-family: sans-serif; background: #1a1a1a; color: white; text-align: center; padding: 20px; }
+        .card { background: #2d2d2d; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); max-width: 400px; margin: auto; }
+        select, input { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: none; font-size: 16px; }
+        button { background: #00ff88; color: black; border: none; padding: 15px 30px; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%; font-size: 18px; }
+        #result { margin-top: 20px; font-size: 22px; font-weight: bold; }
+        .win { color: #00ff88; } .loss { color: #ff4444; } .fair { color: #ffff00; }
+        h2 { color: #00ff88; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>BRAINROT TRADER</h2>
+    <p style="font-size: 12px; color: #888;">Updated: March 2026 Values</p>
+    
+    <div id="your-side">
+        <h3 style="color: #44ccff;">YOUR ITEM</h3>
+        <select id="myBrainrot"></select>
+        <select id="myTrait"></select>
+    </div>
+
+    <hr style="border: 0.5px solid #444;">
+
+    <div id="their-side">
+        <h3 style="color: #ffaa00;">THEIR ITEM</h3>
+        <select id="theirBrainrot"></select>
+        <select id="theirTrait"></select>
+    </div>
+
+    <button onclick="calculateTrade()">CHECK TRADE</button>
+
+    <div id="result">---</div>
+</div>
+
+<script>
+// 2026 Value Data
+const VALUES = {
+    "Garama": 50000000,
+    "Madundung": 50000000,
+    "Strawberry Elephant": 350000000,
+    "Dragon Cannelloni": 200000000,
+    "Tric Trac Baraboom": 9000,
+    "Sigma Boy": 325000,
+    "Sigma Girl": 340000,
+    "Belula Beluga": 60000000,
+    "Anpali Babel": 48000000,
+    "Piccione Macchina": 40000000,
+    "Taco (Base)": 35000,
+    "Noobini Pizzanini": 25
+};
+
+const TRAITS = {
+    "None": 1.0,
+    "Fire": 6.0,
+    "Nyan Cat": 6.0,
+    "Firework (2026)": 6.0,
+    "Spider": 4.5,
+    "UFO/Alien": 3.0,
+    "Emerald": 1.2,
+    "Diamond": 4.5,
+    "Lucky": 10.0,
+    "ZZZ (Sleepy)": 0.5
+};
+
+// Populate dropdowns
+function setup() {
+    const bSelects = [document.getElementById('myBrainrot'), document.getElementById('theirBrainrot')];
+    const tSelects = [document.getElementById('myTrait'), document.getElementById('theirTrait')];
+
+    Object.keys(VALUES).sort().forEach(name => {
+        bSelects.forEach(s => s.add(new Option(name, name)));
+    });
+    
+    Object.keys(TRAITS).forEach(trait => {
+        tSelects.forEach(s => s.add(new Option(trait, trait)));
+    });
+}
+
+function calculateTrade() {
+    let myVal = VALUES[document.getElementById('myBrainrot').value] * TRAITS[document.getElementById('myTrait').value];
+    let theirVal = VALUES[document.getElementById('theirBrainrot').value] * TRAITS[document.getElementById('theirTrait').value];
+    
+    let resDiv = document.getElementById('result');
+    let diff = theirVal / myVal;
+
+    let verdict = "";
+    let colorClass = "";
+
+    if (diff >= 1.5) { verdict = "MASSIVE WIN (W)"; colorClass = "win"; }
+    else if (diff > 1.05) { verdict = "WIN (w)"; colorClass = "win"; }
+    else if (diff >= 0.95) { verdict = "FAIR (F)"; colorClass = "fair"; }
+    else if (diff >= 0.6) { verdict = "LOSS (L)"; colorClass = "loss"; }
+    else { verdict = "SCAMMED (Big L)"; colorClass = "loss"; }
+
+    resDiv.innerHTML = `<span class="${colorClass}">${verdict}</span><br>
+                        <span style="font-size: 14px; color: #888;">
+                        You: $${myVal.toLocaleString()} vs Them: $${theirVal.toLocaleString()}
+                        </span>`;
+}
+
+setup();
+</script>
+
+</body>
+</html>
