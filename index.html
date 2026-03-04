@@ -3,69 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SAB Ultimate Trade Calc</title>
+    <title>SAB Master Index Trade Calc</title>
     <style>
-        body { font-family: 'Courier New', monospace; background: #050505; color: #00ff00; padding: 10px; }
-        .app { border: 2px solid #00ff00; max-width: 450px; margin: auto; padding: 15px; background: #111; border-radius: 10px; }
-        select, button { width: 100%; padding: 10px; margin: 5px 0; background: #222; color: #00ff00; border: 1px solid #00ff00; border-radius: 5px; font-size: 14px; }
-        .box { border: 1px solid #333; padding: 10px; margin-bottom: 10px; border-radius: 5px; }
-        #verdict { font-size: 20px; font-weight: bold; text-align: center; padding: 15px; margin-top: 10px; border-radius: 5px; }
-        .W { background: rgba(0,255,0,0.2); border: 2px solid #00ff00; }
-        .L { background: rgba(255,0,0,0.2); border: 2px solid #ff0000; color: #ff0000; }
-        .F { background: rgba(255,255,0,0.2); border: 2px solid #ffff00; color: #ffff00; }
-        h2 { margin: 0 0 10px 0; font-size: 18px; text-transform: uppercase; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: #0a0a0a; color: #fff; padding: 10px; }
+        .app { border: 2px solid #555; max-width: 500px; margin: auto; padding: 15px; background: #151515; border-radius: 12px; }
+        select, button { width: 100%; padding: 12px; margin: 5px 0; background: #222; color: #00ff88; border: 1px solid #444; border-radius: 8px; font-size: 15px; outline: none; }
+        .side { border: 1px solid #333; padding: 10px; margin-bottom: 10px; border-radius: 8px; background: #1c1c1c; }
+        #verdict { font-size: 22px; font-weight: bold; text-align: center; padding: 20px; margin-top: 15px; border-radius: 8px; }
+        .win { background: rgba(0, 255, 136, 0.15); border: 2px solid #00ff88; color: #00ff88; }
+        .loss { background: rgba(255, 68, 68, 0.15); border: 2px solid #ff4444; color: #ff4444; }
+        .fair { background: rgba(255, 255, 0, 0.15); border: 2px solid #ffff00; color: #ffff00; }
+        h3 { margin: 0 0 10px 0; font-size: 14px; color: #888; text-transform: uppercase; }
+        .price-label { display: block; font-size: 11px; color: #666; margin-top: -4px; margin-bottom: 8px; }
     </style>
 </head>
 <body>
 
 <div class="app">
-    <h1 style="text-align:center; color:#fff; font-size:22px;">BRAINROT VALUE CHECKER</h1>
+    <h1 style="text-align:center; margin-top:0;">MASTER INDEX 2026</h1>
     
-    <div class="box">
-        <h2 style="color:#0088ff;">YOUR SIDE</h2>
+    <div class="side">
+        <h3 style="color:#00ccff;">YOUR SIDE</h3>
         <select id="myB"></select>
         <select id="myM"></select>
         <select id="myT"></select>
     </div>
 
-    <div class="box">
-        <h2 style="color:#ffaa00;">THEIR SIDE</h2>
+    <div class="side">
+        <h3 style="color:#ffaa00;">THEIR SIDE</h3>
         <select id="theirB"></select>
         <select id="theirM"></select>
         <select id="theirT"></select>
     </div>
 
-    <button onclick="calculate()">RUN TRADE ANALYSIS</button>
-    <div id="verdict">Awaiting input...</div>
+    <button onclick="calculate()">ANALYZE MARKET WORTH</button>
+    <div id="verdict">Select items to analyze...</div>
 </div>
 
 <script>
-// 2026 VALUATION DATABASE
+// --- EVERY BRAINROT IN THE 2026 INDEX ---
 const DATA = {
     units: {
+        // --- UNOBTAINABLE / COMBINATION / SECRET ---
         "Strawberry Elephant": 500000000000, "Dragon Gingerini": 300000000000, "Skibidi Toilet (OG)": 300000000000,
-        "Meowl": 275000000000, "Headless Horseman": 150000000000, "Las Spyderinis": 250000000,
-        "Dragon Cannelloni": 100000000000, "Spaghetti Tualetti": 600000000, "Chicleteira Bicicleteira": 750000000,
-        "Garama & Madundung": 50000000, "Ketchuru & Masturu": 42500000, "Belula Beluga": 60000000,
-        "Piccionetta Macchina": 47000000, "Sigma Boy": 325000, "Sigma Girl": 340000,
-        "Tric Trac Baraboom": 9000, "Pipi Avocado": 9500, "Noobini Pizzanini": 25, "67": 10
+        "Meowl": 275000000000, "La Grande Combinasion": 250000000000, "La Secret Combinasion": 200000000000,
+        "Dragon Cannelloni": 100000000000, "Headless Horseman": 150000000000, "Hydra Dragon Cannelloni": 120000000000,
+        "Festive 67 Plush": 10000000000, "La Karkerkar Combinasion": 80000000000, "La Supreme Combinasion": 90000000000,
+        "Torrtuginni Dragonfrutini": 500000000, "Los Spyderinis": 250000000, "Las Vaquitas Saturnitas": 160000000,
+        "Job Job Job Sahur": 175000000, "Las Tralaleritos": 150000000, "Dul Dul Dul": 150000000,
+        "Graipuss Medussi": 200000000, "Pot Hotspot": 500000000, "Nooo My Hotspot": 500000000,
+        // --- BRAINROT GODS ---
+        "Belula Beluga": 60000000, "Anpali Babel": 48000000, "Piccionetta Macchina": 47000000,
+        "Mastodontico Telepiedone": 47500000, "Tractoro Dinosauro": 42500000, "Piccione Macchina": 40000000,
+        "Bombardini Tortinii": 50000000, "Pakrahmatmamat": 37500000, "Ballerino Lololo": 35000000,
+        // --- MYTHIC / LEGENDARY ---
+        "Cavallo Virtuso": 2500000, "Toiletto Focaccino": 4800000, "Elefanto Frigo": 4600000,
+        "Carloo": 4500000, "Sigma Boy": 325000, "Sigma Girl": 340000, "Chimpazini Bananini": 50000,
+        // --- COMMONS / RARES ---
+        "Tric Trac Baraboom": 9000, "Pipi Avocado": 9500, "Cacto Hipopotamo": 6500,
+        "Trippi Troppi": 2000, "Lirili Larila": 250, "Noobini Pizzanini": 25, "67": 10
     },
     mutations: {
-        "None": 1, "Lucky": 10, "Divine": 10, "Cursed": 9, "Radioactive": 8.5, "Galaxy": 7,
-        "Lava": 6, "Candy": 4, "Blood": 2, "Diamond": 1.5, "Gold": 1.25, "Sleepy": 0.5
+        "None": 1, "Lucky": 10, "Divine": 10, "Rainbow": 10, "Cursed": 9, "Radioactive": 8.5, 
+        "Galaxy": 7, "Yin Yang": 7.5, "Lava": 6, "Candy": 4, "Diamond": 1.5, "Gold": 1.25, "Sleepy": 0.5
     },
     traits: {
         "None": 1, "Strawberry": 8, "Fire": 6, "Nyan Cat": 6, "2026": 6, "Fireworks": 6,
-        "Spider": 4.5, "Halloween": 4.5, "10B": 4, "UFO": 3, "Taco": 3, "Rain": 2.5
+        "Skibidi": 6.5, "Spider": 4.5, "10B": 4, "UFO": 3, "Taco": 3, "Rain": 2.5
     }
 };
 
 function init() {
-    const sides = ['my', 'their'];
-    sides.forEach(s => {
-        const b = document.getElementById(s + 'B');
-        const m = document.getElementById(s + 'M');
-        const t = document.getElementById(s + 'T');
+    ['my', 'their'].forEach(s => {
+        const b = document.getElementById(s + 'B'), m = document.getElementById(s + 'M'), t = document.getElementById(s + 'T');
         Object.keys(DATA.units).sort().forEach(u => b.add(new Option(u, u)));
         Object.keys(DATA.mutations).forEach(mu => m.add(new Option(mu, mu)));
         Object.keys(DATA.traits).forEach(tr => t.add(new Option(tr, tr)));
@@ -80,16 +90,19 @@ function calculate() {
         return b * m * t;
     };
 
-    let myTotal = val('my');
-    let theirTotal = val('their');
-    let v = document.getElementById('verdict');
-    let ratio = theirTotal / myTotal;
+    let myTotal = val('my'), theirTotal = val('their'), v = document.getElementById('verdict');
+    let diff = theirTotal - myTotal;
 
-    if (ratio >= 1.2) { v.className = "W"; v.innerText = "WIN (W) - Take it!"; }
-    else if (ratio >= 0.9) { v.className = "F"; v.innerText = "FAIR (F) - Safe trade."; }
-    else { v.className = "L"; v.innerText = "LOSS (L) - Don't do it!"; }
-
-    v.innerHTML += `<br><small style="font-size:12px; color:#aaa;"> Worth Diff: $${(theirTotal - myTotal).toLocaleString()}</small>`;
+    if (theirTotal > myTotal * 1.1) {
+        v.className = "win";
+        v.innerHTML = `WORTH WIN (W)<br><span style="font-size:14px; color:#fff;">+$${diff.toLocaleString()} Profit</span>`;
+    } else if (theirTotal < myTotal * 0.9) {
+        v.className = "loss";
+        v.innerHTML = `WORTH LOSS (L)<br><span style="font-size:14px; color:#fff;">-$${Math.abs(diff).toLocaleString()} Loss</span>`;
+    } else {
+        v.className = "fair";
+        v.innerHTML = `FAIR TRADE (F)<br><span style="font-size:14px; color:#fff;">Diff: $${diff.toLocaleString()}</span>`;
+    }
 }
 init();
 </script>
