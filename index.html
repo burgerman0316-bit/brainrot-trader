@@ -3,112 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ultimate Brainrot Trade Calc</title>
+    <title>SAB Ultimate Trade Calc</title>
     <style>
-        body { font-family: 'Segoe UI', sans-serif; background: #0f0f0f; color: #e0e0e0; text-align: center; padding: 10px; }
-        .container { background: #1a1a1a; padding: 20px; border-radius: 20px; border: 2px solid #333; max-width: 500px; margin: auto; }
-        .side-box { background: #252525; padding: 15px; border-radius: 12px; margin-bottom: 15px; border-left: 5px solid #444; }
-        .your-side { border-left-color: #0088ff; }
-        .their-side { border-left-color: #ffaa00; }
-        select { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; background: #333; color: white; border: 1px solid #444; font-size: 15px; }
-        button { background: linear-gradient(45deg, #00ff88, #00ccff); color: black; border: none; padding: 18px; border-radius: 10px; font-weight: bold; cursor: pointer; width: 100%; font-size: 20px; margin-top: 10px; }
-        #result { margin-top: 20px; padding: 15px; border-radius: 10px; font-size: 18px; line-height: 1.5; }
-        .win { background: rgba(0, 255, 136, 0.1); color: #00ff88; border: 1px solid #00ff88; }
-        .loss { background: rgba(255, 68, 68, 0.1); color: #ff4444; border: 1px solid #ff4444; }
-        .fair { background: rgba(255, 255, 0, 0.1); color: #ffff00; border: 1px solid #ffff00; }
-        label { display: block; text-align: left; font-size: 12px; color: #888; text-transform: uppercase; margin-left: 5px; }
+        body { font-family: 'Courier New', monospace; background: #050505; color: #00ff00; padding: 10px; }
+        .app { border: 2px solid #00ff00; max-width: 450px; margin: auto; padding: 15px; background: #111; border-radius: 10px; }
+        select, button { width: 100%; padding: 10px; margin: 5px 0; background: #222; color: #00ff00; border: 1px solid #00ff00; border-radius: 5px; font-size: 14px; }
+        .box { border: 1px solid #333; padding: 10px; margin-bottom: 10px; border-radius: 5px; }
+        #verdict { font-size: 20px; font-weight: bold; text-align: center; padding: 15px; margin-top: 10px; border-radius: 5px; }
+        .W { background: rgba(0,255,0,0.2); border: 2px solid #00ff00; }
+        .L { background: rgba(255,0,0,0.2); border: 2px solid #ff0000; color: #ff0000; }
+        .F { background: rgba(255,255,0,0.2); border: 2px solid #ffff00; color: #ffff00; }
+        h2 { margin: 0 0 10px 0; font-size: 18px; text-transform: uppercase; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1 style="margin: 0; color: #00ff88;">BRAINROT PRO</h1>
-    <p style="color: #666; font-size: 12px; margin-bottom: 20px;">V3.0 - 2026 Trade Authority</p>
-
-    <div class="side-box your-side">
-        <label>Your Brainrot</label>
-        <select id="myBrainrot"></select>
-        <label>Mutation (Body)</label>
-        <select id="myMutation"></select>
-        <label>Trait (Aura)</label>
-        <select id="myTrait"></select>
+<div class="app">
+    <h1 style="text-align:center; color:#fff; font-size:22px;">BRAINROT VALUE CHECKER</h1>
+    
+    <div class="box">
+        <h2 style="color:#0088ff;">YOUR SIDE</h2>
+        <select id="myB"></select>
+        <select id="myM"></select>
+        <select id="myT"></select>
     </div>
 
-    <div style="font-weight: bold; margin: 10px;">VS</div>
-
-    <div class="side-box their-side">
-        <label>Their Brainrot</label>
-        <select id="theirBrainrot"></select>
-        <label>Mutation (Body)</label>
-        <select id="theirMutation"></select>
-        <label>Trait (Aura)</label>
-        <select id="theirTrait"></select>
+    <div class="box">
+        <h2 style="color:#ffaa00;">THEIR SIDE</h2>
+        <select id="theirB"></select>
+        <select id="theirM"></select>
+        <select id="theirT"></select>
     </div>
 
-    <button onclick="calculate()">ANALYZE TRADE</button>
-    <div id="result">Select items to begin...</div>
+    <button onclick="calculate()">RUN TRADE ANALYSIS</button>
+    <div id="verdict">Awaiting input...</div>
 </div>
 
 <script>
-// COMPLETE 2026 DATABASE
+// 2026 VALUATION DATABASE
 const DATA = {
     units: {
-        "Noobini Pizzanini": 25, "Lirili Larila": 250, "Tim Cheese": 500, "FluriFlura": 750, "Talpa Di Fero": 1000,
-        "Svinina Bombardino": 1200, "Pipi Kiwi": 1500, "Racooni Jandelini": 1300, "Trippi Troppi": 2000,
-        "Tric Trac Baraboom": 9000, "Pipi Avocado": 9500, "Cappuccino Assassino": 10000, "Brr Brr Patapim": 15000,
-        "Sigma Boy": 325000, "Sigma Girl": 340000, "Rhino Toasterino": 450000, "Bombardiro Crocodilo": 500000,
-        "Cavallo Virtuso": 2500000, "Toiletto Focaccino": 4800000, "Garama & Madundung": 10000000000,
-        "Ketchuru & Masturu": 7500000000, "Dragon Cannelloni": 100000000000, "Strawberry Elephant": 500000000000
+        "Strawberry Elephant": 500000000000, "Dragon Gingerini": 300000000000, "Skibidi Toilet (OG)": 300000000000,
+        "Meowl": 275000000000, "Headless Horseman": 150000000000, "Las Spyderinis": 250000000,
+        "Dragon Cannelloni": 100000000000, "Spaghetti Tualetti": 600000000, "Chicleteira Bicicleteira": 750000000,
+        "Garama & Madundung": 50000000, "Ketchuru & Masturu": 42500000, "Belula Beluga": 60000000,
+        "Piccionetta Macchina": 47000000, "Sigma Boy": 325000, "Sigma Girl": 340000,
+        "Tric Trac Baraboom": 9000, "Pipi Avocado": 9500, "Noobini Pizzanini": 25, "67": 10
     },
     mutations: {
-        "None": 1, "Gold": 1.25, "Diamond": 1.5, "Bloodrot": 2, "Candy": 4, "Lava": 6, 
-        "Galaxy": 7, "Yin Yang": 7.5, "Radioactive": 8.5, "Cursed": 9, "Divine": 10, "Rainbow": 10, "Sleepy": 0.5
+        "None": 1, "Lucky": 10, "Divine": 10, "Cursed": 9, "Radioactive": 8.5, "Galaxy": 7,
+        "Lava": 6, "Candy": 4, "Blood": 2, "Diamond": 1.5, "Gold": 1.25, "Sleepy": 0.5
     },
     traits: {
-        "None": 1, "Rain": 2.5, "Snow": 3, "Taco": 3, "UFO": 3, "Starfall": 3.5, "Spider": 4.5,
-        "10B": 4, "Fire": 6, "Nyan Cat": 6, "2026": 6, "Fireworks": 6, "Skibidi": 6.5, "Strawberry": 8
+        "None": 1, "Strawberry": 8, "Fire": 6, "Nyan Cat": 6, "2026": 6, "Fireworks": 6,
+        "Spider": 4.5, "Halloween": 4.5, "10B": 4, "UFO": 3, "Taco": 3, "Rain": 2.5
     }
 };
 
-function populate() {
-    const ids = ['my', 'their'];
-    ids.forEach(p => {
-        const b = document.getElementById(p + 'Brainrot');
-        const m = document.getElementById(p + 'Mutation');
-        const t = document.getElementById(p + 'Trait');
-        
-        Object.keys(DATA.units).forEach(k => b.add(new Option(k, k)));
-        Object.keys(DATA.mutations).forEach(k => m.add(new Option(k, k)));
-        Object.keys(DATA.traits).forEach(k => t.add(new Option(k, k)));
+function init() {
+    const sides = ['my', 'their'];
+    sides.forEach(s => {
+        const b = document.getElementById(s + 'B');
+        const m = document.getElementById(s + 'M');
+        const t = document.getElementById(s + 'T');
+        Object.keys(DATA.units).sort().forEach(u => b.add(new Option(u, u)));
+        Object.keys(DATA.mutations).forEach(mu => m.add(new Option(mu, mu)));
+        Object.keys(DATA.traits).forEach(tr => t.add(new Option(tr, tr)));
     });
 }
 
 function calculate() {
-    const getVal = (p) => {
-        let base = DATA.units[document.getElementById(p + 'Brainrot').value];
-        let mut = DATA.mutations[document.getElementById(p + 'Mutation').value];
-        let trt = DATA.traits[document.getElementById(p + 'Trait').value];
-        return base * mut * trt;
+    const val = (s) => {
+        let b = DATA.units[document.getElementById(s + 'B').value];
+        let m = DATA.mutations[document.getElementById(s + 'M').value];
+        let t = DATA.traits[document.getElementById(s + 'T').value];
+        return b * m * t;
     };
 
-    let myTotal = getVal('my');
-    let theirTotal = getVal('their');
+    let myTotal = val('my');
+    let theirTotal = val('their');
+    let v = document.getElementById('verdict');
     let ratio = theirTotal / myTotal;
-    let res = document.getElementById('result');
 
-    let verdict, style;
-    if (ratio >= 2) { verdict = "GIGA WIN (W)"; style = "win"; }
-    else if (ratio >= 1.1) { verdict = "WIN (w)"; style = "win"; }
-    else if (ratio >= 0.9) { verdict = "FAIR (F)"; style = "fair"; }
-    else if (ratio >= 0.5) { verdict = "LOSS (L)"; style = "loss"; }
-    else { verdict = "SCAMMED (Giga L)"; style = "loss"; }
+    if (ratio >= 1.2) { v.className = "W"; v.innerText = "WIN (W) - Take it!"; }
+    else if (ratio >= 0.9) { v.className = "F"; v.innerText = "FAIR (F) - Safe trade."; }
+    else { v.className = "L"; v.innerText = "LOSS (L) - Don't do it!"; }
 
-    res.className = style;
-    res.innerHTML = `<strong>${verdict}</strong><br>
-                    <small>You: $${myTotal.toLocaleString()} | Them: $${theirTotal.toLocaleString()}</small>`;
+    v.innerHTML += `<br><small style="font-size:12px; color:#aaa;"> Worth Diff: $${(theirTotal - myTotal).toLocaleString()}</small>`;
 }
-
-setup: populate();
+init();
 </script>
 </body>
 </html>
