@@ -3,110 +3,112 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Brainrot Trade Calc 2026</title>
+    <title>Ultimate Brainrot Trade Calc</title>
     <style>
-        body { font-family: sans-serif; background: #1a1a1a; color: white; text-align: center; padding: 20px; }
-        .card { background: #2d2d2d; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.5); max-width: 400px; margin: auto; }
-        select, input { width: 90%; padding: 10px; margin: 10px 0; border-radius: 5px; border: none; font-size: 16px; }
-        button { background: #00ff88; color: black; border: none; padding: 15px 30px; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%; font-size: 18px; }
-        #result { margin-top: 20px; font-size: 22px; font-weight: bold; }
-        .win { color: #00ff88; } .loss { color: #ff4444; } .fair { color: #ffff00; }
-        h2 { color: #00ff88; margin-bottom: 5px; }
+        body { font-family: 'Segoe UI', sans-serif; background: #0f0f0f; color: #e0e0e0; text-align: center; padding: 10px; }
+        .container { background: #1a1a1a; padding: 20px; border-radius: 20px; border: 2px solid #333; max-width: 500px; margin: auto; }
+        .side-box { background: #252525; padding: 15px; border-radius: 12px; margin-bottom: 15px; border-left: 5px solid #444; }
+        .your-side { border-left-color: #0088ff; }
+        .their-side { border-left-color: #ffaa00; }
+        select { width: 100%; padding: 12px; margin: 8px 0; border-radius: 8px; background: #333; color: white; border: 1px solid #444; font-size: 15px; }
+        button { background: linear-gradient(45deg, #00ff88, #00ccff); color: black; border: none; padding: 18px; border-radius: 10px; font-weight: bold; cursor: pointer; width: 100%; font-size: 20px; margin-top: 10px; }
+        #result { margin-top: 20px; padding: 15px; border-radius: 10px; font-size: 18px; line-height: 1.5; }
+        .win { background: rgba(0, 255, 136, 0.1); color: #00ff88; border: 1px solid #00ff88; }
+        .loss { background: rgba(255, 68, 68, 0.1); color: #ff4444; border: 1px solid #ff4444; }
+        .fair { background: rgba(255, 255, 0, 0.1); color: #ffff00; border: 1px solid #ffff00; }
+        label { display: block; text-align: left; font-size: 12px; color: #888; text-transform: uppercase; margin-left: 5px; }
     </style>
 </head>
 <body>
 
-<div class="card">
-    <h2>BRAINROT TRADER</h2>
-    <p style="font-size: 12px; color: #888;">Updated: March 2026 Values</p>
-    
-    <div id="your-side">
-        <h3 style="color: #44ccff;">YOUR ITEM</h3>
+<div class="container">
+    <h1 style="margin: 0; color: #00ff88;">BRAINROT PRO</h1>
+    <p style="color: #666; font-size: 12px; margin-bottom: 20px;">V3.0 - 2026 Trade Authority</p>
+
+    <div class="side-box your-side">
+        <label>Your Brainrot</label>
         <select id="myBrainrot"></select>
+        <label>Mutation (Body)</label>
+        <select id="myMutation"></select>
+        <label>Trait (Aura)</label>
         <select id="myTrait"></select>
     </div>
 
-    <hr style="border: 0.5px solid #444;">
+    <div style="font-weight: bold; margin: 10px;">VS</div>
 
-    <div id="their-side">
-        <h3 style="color: #ffaa00;">THEIR ITEM</h3>
+    <div class="side-box their-side">
+        <label>Their Brainrot</label>
         <select id="theirBrainrot"></select>
+        <label>Mutation (Body)</label>
+        <select id="theirMutation"></select>
+        <label>Trait (Aura)</label>
         <select id="theirTrait"></select>
     </div>
 
-    <button onclick="calculateTrade()">CHECK TRADE</button>
-
-    <div id="result">---</div>
+    <button onclick="calculate()">ANALYZE TRADE</button>
+    <div id="result">Select items to begin...</div>
 </div>
 
 <script>
-// 2026 Value Data
-const VALUES = {
-    "Garama": 50000000,
-    "Madundung": 50000000,
-    "Strawberry Elephant": 350000000,
-    "Dragon Cannelloni": 200000000,
-    "Tric Trac Baraboom": 9000,
-    "Sigma Boy": 325000,
-    "Sigma Girl": 340000,
-    "Belula Beluga": 60000000,
-    "Anpali Babel": 48000000,
-    "Piccione Macchina": 40000000,
-    "Taco (Base)": 35000,
-    "Noobini Pizzanini": 25
+// COMPLETE 2026 DATABASE
+const DATA = {
+    units: {
+        "Noobini Pizzanini": 25, "Lirili Larila": 250, "Tim Cheese": 500, "FluriFlura": 750, "Talpa Di Fero": 1000,
+        "Svinina Bombardino": 1200, "Pipi Kiwi": 1500, "Racooni Jandelini": 1300, "Trippi Troppi": 2000,
+        "Tric Trac Baraboom": 9000, "Pipi Avocado": 9500, "Cappuccino Assassino": 10000, "Brr Brr Patapim": 15000,
+        "Sigma Boy": 325000, "Sigma Girl": 340000, "Rhino Toasterino": 450000, "Bombardiro Crocodilo": 500000,
+        "Cavallo Virtuso": 2500000, "Toiletto Focaccino": 4800000, "Garama & Madundung": 10000000000,
+        "Ketchuru & Masturu": 7500000000, "Dragon Cannelloni": 100000000000, "Strawberry Elephant": 500000000000
+    },
+    mutations: {
+        "None": 1, "Gold": 1.25, "Diamond": 1.5, "Bloodrot": 2, "Candy": 4, "Lava": 6, 
+        "Galaxy": 7, "Yin Yang": 7.5, "Radioactive": 8.5, "Cursed": 9, "Divine": 10, "Rainbow": 10, "Sleepy": 0.5
+    },
+    traits: {
+        "None": 1, "Rain": 2.5, "Snow": 3, "Taco": 3, "UFO": 3, "Starfall": 3.5, "Spider": 4.5,
+        "10B": 4, "Fire": 6, "Nyan Cat": 6, "2026": 6, "Fireworks": 6, "Skibidi": 6.5, "Strawberry": 8
+    }
 };
 
-const TRAITS = {
-    "None": 1.0,
-    "Fire": 6.0,
-    "Nyan Cat": 6.0,
-    "Firework (2026)": 6.0,
-    "Spider": 4.5,
-    "UFO/Alien": 3.0,
-    "Emerald": 1.2,
-    "Diamond": 4.5,
-    "Lucky": 10.0,
-    "ZZZ (Sleepy)": 0.5
-};
-
-// Populate dropdowns
-function setup() {
-    const bSelects = [document.getElementById('myBrainrot'), document.getElementById('theirBrainrot')];
-    const tSelects = [document.getElementById('myTrait'), document.getElementById('theirTrait')];
-
-    Object.keys(VALUES).sort().forEach(name => {
-        bSelects.forEach(s => s.add(new Option(name, name)));
-    });
-    
-    Object.keys(TRAITS).forEach(trait => {
-        tSelects.forEach(s => s.add(new Option(trait, trait)));
+function populate() {
+    const ids = ['my', 'their'];
+    ids.forEach(p => {
+        const b = document.getElementById(p + 'Brainrot');
+        const m = document.getElementById(p + 'Mutation');
+        const t = document.getElementById(p + 'Trait');
+        
+        Object.keys(DATA.units).forEach(k => b.add(new Option(k, k)));
+        Object.keys(DATA.mutations).forEach(k => m.add(new Option(k, k)));
+        Object.keys(DATA.traits).forEach(k => t.add(new Option(k, k)));
     });
 }
 
-function calculateTrade() {
-    let myVal = VALUES[document.getElementById('myBrainrot').value] * TRAITS[document.getElementById('myTrait').value];
-    let theirVal = VALUES[document.getElementById('theirBrainrot').value] * TRAITS[document.getElementById('theirTrait').value];
-    
-    let resDiv = document.getElementById('result');
-    let diff = theirVal / myVal;
+function calculate() {
+    const getVal = (p) => {
+        let base = DATA.units[document.getElementById(p + 'Brainrot').value];
+        let mut = DATA.mutations[document.getElementById(p + 'Mutation').value];
+        let trt = DATA.traits[document.getElementById(p + 'Trait').value];
+        return base * mut * trt;
+    };
 
-    let verdict = "";
-    let colorClass = "";
+    let myTotal = getVal('my');
+    let theirTotal = getVal('their');
+    let ratio = theirTotal / myTotal;
+    let res = document.getElementById('result');
 
-    if (diff >= 1.5) { verdict = "MASSIVE WIN (W)"; colorClass = "win"; }
-    else if (diff > 1.05) { verdict = "WIN (w)"; colorClass = "win"; }
-    else if (diff >= 0.95) { verdict = "FAIR (F)"; colorClass = "fair"; }
-    else if (diff >= 0.6) { verdict = "LOSS (L)"; colorClass = "loss"; }
-    else { verdict = "SCAMMED (Big L)"; colorClass = "loss"; }
+    let verdict, style;
+    if (ratio >= 2) { verdict = "GIGA WIN (W)"; style = "win"; }
+    else if (ratio >= 1.1) { verdict = "WIN (w)"; style = "win"; }
+    else if (ratio >= 0.9) { verdict = "FAIR (F)"; style = "fair"; }
+    else if (ratio >= 0.5) { verdict = "LOSS (L)"; style = "loss"; }
+    else { verdict = "SCAMMED (Giga L)"; style = "loss"; }
 
-    resDiv.innerHTML = `<span class="${colorClass}">${verdict}</span><br>
-                        <span style="font-size: 14px; color: #888;">
-                        You: $${myVal.toLocaleString()} vs Them: $${theirVal.toLocaleString()}
-                        </span>`;
+    res.className = style;
+    res.innerHTML = `<strong>${verdict}</strong><br>
+                    <small>You: $${myTotal.toLocaleString()} | Them: $${theirTotal.toLocaleString()}</small>`;
 }
 
-setup();
+setup: populate();
 </script>
-
 </body>
 </html>
